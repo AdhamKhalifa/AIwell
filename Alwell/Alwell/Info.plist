@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- HealthKit Usage Descriptions -->
+    <key>NSHealthShareUsageDescription</key>
+    <string>Your health data will be used to provide you with personalized health insights.</string>
+    
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Your health data will be updated to keep track of your health metrics like heart rate, steps, and more.</string>
+</dict>
+</plist>

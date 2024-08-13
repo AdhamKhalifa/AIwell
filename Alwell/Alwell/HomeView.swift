@@ -1,20 +1,13 @@
-//
-//  HomeView.swift
-//  Alwell
-//
-//  Created by Adham Khalifa on 8/11/24.
-//
-
 import SwiftUI
 import Contacts
 
 struct HomeView: View {
     @EnvironmentObject var healthManager: HealthManager
+    @State private var isSyncing = false
     
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                // Greeting
                 Text("Welcome back, \(getUserName())!")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -39,7 +32,7 @@ struct HomeView: View {
                             .foregroundColor(.orange)
                             .font(.system(size: 50))
                         Text("Calories")
-                        Text("1250 kcal") // Placeholder, update to fetch actual data
+                        Text(String(format: "%.1f kcal", healthManager.caloriesBurned))
                             .font(.headline)
                     }
                     .padding()
@@ -50,13 +43,35 @@ struct HomeView: View {
                 // Sync Status and Button
                 HStack {
                     Button(action: {
-                        healthManager.fetchAllData()
+                        withAnimation {
+                            isSyncing = true
+                        }
+                        DispatchQueue.global(qos: .background).async {
+                            self.healthManager.fetchHeartRate()
+                            self.healthManager.fetchStepCount()
+                            self.healthManager.fetchCaloriesBurned()
+                            self.healthManager.fetchExerciseMinutes()
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // Simulating delay
+                                withAnimation {
+                                    isSyncing = false
+                                }
+                                // Show "Synced just now" message
+                                print("Synced just now")
+                            }
+                        }
                     }) {
                         HStack {
-                            Image(systemName: "arrow.2.circlepath")
-                                .font(.system(size: 40))
-                                .foregroundColor(.blue)
-                            Text("Last Sync: Just Now")
+                            if isSyncing {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .scaleEffect(1.5)
+                            } else {
+                                Image(systemName: "arrow.2.circlepath")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(.blue)
+                            }
+                            Text(isSyncing ? "Syncing..." : "Last Sync: Just Now")
                                 .font(.headline)
                         }
                     }
@@ -64,20 +79,6 @@ struct HomeView: View {
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
-                
-                VStack {
-                    Image(systemName: "flame.fill")
-                        .foregroundColor(.orange)
-                        .font(.system(size: 50))
-                    Text("Calories Burned")
-                    Text(String(format: "%.1f kcal", healthManager.caloriesBurned))
-                        .font(.headline)
-                }
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                
-                Spacer()
             }
             .padding()
             .navigationBarTitle("Home", displayMode: .inline)
@@ -86,12 +87,6 @@ struct HomeView: View {
     
     // Get the iPhone user's first name
     func getUserName() -> String {
-        /*let name = CNContactStore().defaultContainerIdentifier
-        let formatter = PersonNameComponentsFormatter()
-        if let personName = formatter.string(from: PersonNameComponents(givenName: "Adham")) {
-            return personName
-        }*/
-        return "User"
+        return UserDefaults.standard.string(forKey: "userFirstName") ?? "User"
     }
 }
-

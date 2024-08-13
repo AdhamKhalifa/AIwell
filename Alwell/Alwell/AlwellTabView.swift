@@ -1,10 +1,3 @@
-//
-//  AlwellTabView.swift
-//  Alwell
-//
-//  Created by Adham Khalifa on 8/11/24.
-//
-
 import SwiftUI
 
 struct AlwellTabView: View {
@@ -22,7 +15,7 @@ struct AlwellTabView: View {
                         Text("Home")
                     }
                 }
-                .badge(2)
+                
 
             ContentView()
                 .tag("Content")
@@ -31,7 +24,7 @@ struct AlwellTabView: View {
                         Image(systemName: "heart.circle")
                         Text("Health")
                     }
-                }.badge(2)
+                }
             
             AIView()
                 .tag("AI")
@@ -40,9 +33,10 @@ struct AlwellTabView: View {
                         Image(systemName: "bubble.left.and.bubble.right.fill")
                         Text("AI Chat")
                     }
-                }.badge(2)
+                }
         }
-        .accentColor(.purple) // Customize the selected tab's color
+        .accentColor(.purple)
+        .environmentObject(HealthManager())
     }
 }
 

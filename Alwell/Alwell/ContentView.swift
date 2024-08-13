@@ -1,16 +1,7 @@
-//
-//  ContentView.swift
-//  Alwell
-//
-//  Created by Adham Khalifa on 8/10/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var healthManager: HealthManager  // Use shared instance
-
-    @State private var editingMetric: String? = nil
+    @EnvironmentObject var healthManager: HealthManager 
     
     var body: some View {
         NavigationView {
@@ -19,9 +10,16 @@ struct ContentView: View {
                     // Heart Rate Section
                     HealthMetricCard(
                         title: "Heart Rate",
-                        value: String(format: "%.1f BPM", healthManager.heartRate),
+                        value: String(format: "%.0f BPM", healthManager.heartRate),
                         icon: "heart.fill",
                         color: .red
+                    )
+                    // Step Count Section
+                    HealthMetricCard(
+                        title: "Steps",
+                        value: String(format: "%.0f", healthManager.stepCount),
+                        icon: "figure.walk",
+                        color: .green
                     )
                     // Sleep Analysis Section
                     HealthMetricCard(
@@ -30,25 +28,39 @@ struct ContentView: View {
                         icon: "bed.double.fill",
                         color: .blue
                     )
-                    // Step Count Section
-                    HealthMetricCard(
-                        title: "Steps",
-                        value: String(format: "%.1f", healthManager.stepCount),
-                        icon: "figure.walk",
-                        color: .green
-                    )
                     // Weight Section
                     HealthMetricCard(
                         title: "Weight",
-                        value: String(format: "%.1f lbs", healthManager.weight),  // Display formatted weight
+                        value: String(format: "%.1f lbs", healthManager.weight),
                         icon: "scalemass.fill",
                         color: .gray
                     )
-                    // Body Temperature Section
+                    // Calories Burned Section
                     HealthMetricCard(
-                        title: "Body Temperature",
-                        value: String(format: "%.1f°F", healthManager.bodyTemperature),
-                        icon: "thermometer",
+                        title: "Calories Burned",
+                        value: String(format: "%.0f kcal", healthManager.caloriesBurned),
+                        icon: "flame.fill",
+                        color: .orange
+                    )
+                    // Physical Effort (MET) Section
+                    HealthMetricCard(
+                        title: "Exercise Minutes",
+                        value: String(format: "%.0f min", healthManager.exerciseMinutes),
+                        icon: "figure.walk",
+                        color: .purple
+                    )
+                    // Respiratory Rate Section
+                    HealthMetricCard(
+                        title: "Respiratory Rate",
+                        value: String(format: "%.0f breaths/min", healthManager.respiratoryRate),
+                        icon: "lungs.fill",
+                        color: .cyan
+                    )
+                    // Cardio Fitness (VO2 Max) Section
+                    HealthMetricCard(
+                        title: "Cardio Fitness (VO2 Max)",
+                        value: String(format: "%.1f ml/kg·min", healthManager.cardioFitnessVO2),
+                        icon: "waveform.path.ecg",
                         color: .red
                     )
                 }
@@ -58,7 +70,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 struct HealthMetricCard: View {
     let title: String
@@ -88,9 +99,9 @@ struct HealthMetricCard: View {
     }
 }
 
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(HealthManager())
     }
 }

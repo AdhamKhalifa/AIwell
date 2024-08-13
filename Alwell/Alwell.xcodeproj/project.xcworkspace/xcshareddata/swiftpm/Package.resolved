@@ -1,13 +1,13 @@
 {
-  "originHash" : "4d5b735fb4ce761349124a905586c7ffe2d7474b2b2a43b5c210bec311d7c12f",
+  "originHash" : "c351aabe13067917247f7926404d096603b95663248b51124280feb61a2edf30",
   "pins" : [
     {
-      "identity" : "swiftopenai",
+      "identity" : "openai",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jamesrochabrun/SwiftOpenAI",
+      "location" : "https://github.com/MacPaw/OpenAI",
       "state" : {
-        "branch" : "main",
-        "revision" : "474b8c6aff245ccb51c5690b688a15fa4872224a"
+        "revision" : "843e087929aa806adb611dbca93f9a4a7f28be04",
+        "version" : "0.3.0"
       }
     }
   ],

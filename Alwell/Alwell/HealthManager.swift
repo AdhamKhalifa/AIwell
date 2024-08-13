@@ -1,53 +1,49 @@
-//
-//  HealthManager.swift
-//  Alwell
-//
-
 import HealthKit
 import SwiftUI
 
 class HealthManager: ObservableObject {
-    private var healthStore = HKHealthStore()
+    let healthStore = HKHealthStore()
     
     @Published var heartRate: Double = 0.0
     @Published var stepCount: Double = 0.0
-    @Published var sleepAnalysis: (hours: Int, minutes: Int) = (0, 0)  // Store hours and minutes separately
-    @Published var bodyTemperature: Double = 0.0
+    @Published var sleepAnalysis: (hours: Int, minutes: Int) = (0, 0) // Define as a tuple
     @Published var weight: Double = 0.0
-    @Published var caloriesBurned: Double = 0.0  // Add this variable
-
+    @Published var caloriesBurned: Double = 0.0
+    @Published var physicalEffort: Double = 0.0
+    @Published var respiratoryRate: Double = 0.0
+    @Published var cardioFitnessVO2: Double = 0.0
+    @Published var exerciseMinutes: Double = 0.0
     
-    // Request authorization to access HealthKit data
-    func requestAuthorization() {
-        let allTypes = Set([
-            HKObjectType.quantityType(forIdentifier: .heartRate)!,
-            HKObjectType.quantityType(forIdentifier: .stepCount)!,
-            HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!,
-            HKObjectType.quantityType(forIdentifier: .bodyTemperature)!,
-            HKObjectType.quantityType(forIdentifier: .bodyMass)!
-        ])
+    init() {
+        let healthTypes: Set = [
+            HKQuantityType(.stepCount),
+            HKQuantityType(.heartRate),
+            HKQuantityType(.bodyMass),
+            HKQuantityType(.activeEnergyBurned),
+            HKQuantityType(.appleExerciseTime),
+            HKQuantityType(.respiratoryRate),
+            HKQuantityType(.vo2Max),
+            HKQuantityType(.walkingHeartRateAverage)
+        ]
         
-        healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
-            if success {
-                print("HealthKit authorization granted.")
-                self.fetchAllData()
-            } else if let error = error {
-                print("HealthKit authorization failed: \(error.localizedDescription)")
+        Task {
+            do {
+                try await healthStore.requestAuthorization(toShare: [], read: healthTypes)
+                fetchHeartRate()
+                fetchStepCount()
+                fetchSleepAnalysis()
+                fetchWeight()
+                fetchCaloriesBurned()
+                fetchPhysicalEffort()
+                fetchRespiratoryRate()
+                fetchCardioFitnessVO2()
+                fetchExerciseMinutes()
+            } catch {
+                print("Error fetching health data: \(error.localizedDescription)")
             }
         }
     }
-    
-    // Fetch all data
-    func fetchAllData() {
-        fetchHeartRate()
-        fetchStepCount()
-        fetchSleepAnalysis()
-        fetchBodyTemperature()
-        fetchWeight()
-        fetchCaloriesBurned()
-    }
 
-    // Fetch Heart Rate
     func fetchHeartRate() {
         guard let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate) else { return }
 
@@ -60,22 +56,26 @@ class HealthManager: ObservableObject {
 
         healthStore.execute(query)
     }
-    
-    // Fetch Step Count
-    func fetchStepCount() {
-        guard let stepCountType = HKObjectType.quantityType(forIdentifier: .stepCount) else { return }
 
-        let query = HKStatisticsQuery(quantityType: stepCountType, quantitySamplePredicate: nil, options: .cumulativeSum) { query, statistics, error in
-            guard let statistics = statistics, let sum = statistics.sumQuantity() else { return }
+    func fetchStepCount() {
+        let steps = HKQuantityType(.stepCount)
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: steps, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
+            guard let result = result, let sum = result.sumQuantity() else {
+                print("Failed to fetch step count: \(error?.localizedDescription ?? "N/A")")
+                return
+            }
+            
             DispatchQueue.main.async {
-                self.stepCount = sum.doubleValue(for: HKUnit.count())
+                self.stepCount = sum.doubleValue(for: .count())
             }
         }
-
+        
         healthStore.execute(query)
     }
     
-    // Fetch Sleep Analysis
     func fetchSleepAnalysis() {
         guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else { return }
 
@@ -92,21 +92,6 @@ class HealthManager: ObservableObject {
         healthStore.execute(query)
     }
     
-    // Fetch Body Temperature
-    func fetchBodyTemperature() {
-        guard let temperatureType = HKObjectType.quantityType(forIdentifier: .bodyTemperature) else { return }
-
-        let query = HKSampleQuery(sampleType: temperatureType, predicate: nil, limit: 1, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { query, results, error in
-            guard let result = results?.first as? HKQuantitySample else { return }
-            DispatchQueue.main.async {
-                self.bodyTemperature = result.quantity.doubleValue(for: HKUnit.degreeFahrenheit())
-            }
-        }
-
-        healthStore.execute(query)
-    }
-    
-    // Fetch Weight
     func fetchWeight() {
         guard let weightType = HKObjectType.quantityType(forIdentifier: .bodyMass) else { return }
 
@@ -119,18 +104,75 @@ class HealthManager: ObservableObject {
 
         healthStore.execute(query)
     }
-    
-    // In requestAuthorization() and fetchAllData():
+
     func fetchCaloriesBurned() {
         guard let caloriesType = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned) else { return }
 
-        let query = HKStatisticsQuery(quantityType: caloriesType, quantitySamplePredicate: nil, options: .cumulativeSum) { query, statistics, error in
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+
+        let query = HKStatisticsQuery(quantityType: caloriesType, quantitySamplePredicate: predicate, options: .cumulativeSum) { query, statistics, error in
             guard let statistics = statistics, let sum = statistics.sumQuantity() else { return }
             DispatchQueue.main.async {
                 self.caloriesBurned = sum.doubleValue(for: HKUnit.kilocalorie())
             }
         }
 
+        healthStore.execute(query)
+    }
+
+    func fetchPhysicalEffort() {
+        guard let metType = HKObjectType.quantityType(forIdentifier: .appleExerciseTime) else { return }
+
+        let query = HKStatisticsQuery(quantityType: metType, quantitySamplePredicate: nil, options: .cumulativeSum) { query, statistics, error in
+            guard let statistics = statistics, let sum = statistics.sumQuantity() else { return }
+            DispatchQueue.main.async {
+                self.physicalEffort = sum.doubleValue(for: HKUnit.minute())
+            }
+        }
+
+        healthStore.execute(query)
+    }
+
+    func fetchRespiratoryRate() {
+        guard let respiratoryRateType = HKObjectType.quantityType(forIdentifier: .respiratoryRate) else { return }
+
+        let query = HKSampleQuery(sampleType: respiratoryRateType, predicate: nil, limit: 1, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { query, results, error in
+            guard let result = results?.first as? HKQuantitySample else { return }
+            DispatchQueue.main.async {
+                self.respiratoryRate = result.quantity.doubleValue(for: HKUnit(from: "count/min"))
+            }
+        }
+
+        healthStore.execute(query)
+    }
+
+    func fetchCardioFitnessVO2() {
+        guard let vo2Type = HKObjectType.quantityType(forIdentifier: .vo2Max) else { return }
+
+        let query = HKSampleQuery(sampleType: vo2Type, predicate: nil, limit: 1, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { query, results, error in
+            guard let result = results?.first as? HKQuantitySample else { return }
+            DispatchQueue.main.async {
+                self.cardioFitnessVO2 = result.quantity.doubleValue(for: HKUnit(from: "ml/kg·min"))
+            }
+        }
+
+        healthStore.execute(query)
+    }
+
+    func fetchExerciseMinutes() {
+        guard let exerciseTimeType = HKObjectType.quantityType(forIdentifier: .appleExerciseTime) else { return }
+        
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: exerciseTimeType, quantitySamplePredicate: predicate, options: .cumulativeSum) { query, statistics, error in
+            guard let statistics = statistics, let sum = statistics.sumQuantity() else { return }
+            DispatchQueue.main.async {
+                self.exerciseMinutes = sum.doubleValue(for: HKUnit.minute())
+            }
+        }
+        
         healthStore.execute(query)
     }
 }

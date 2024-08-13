@@ -10,6 +10,9 @@
 		772D51C12C687D3400878A49 /* AlwellTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772D51C02C687D3400878A49 /* AlwellTabView.swift */; };
 		772D51C32C6884D600878A49 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772D51C22C6884D600878A49 /* HomeView.swift */; };
 		772D51C52C68855900878A49 /* AIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772D51C42C68855900878A49 /* AIView.swift */; };
+		779FED232C6A8CC900435E96 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779FED222C6A8CC900435E96 /* WelcomeView.swift */; };
+		779FED272C6ADF9100435E96 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 779FED262C6ADF9100435E96 /* OpenAI */; };
+		779FED292C6AE40300435E96 /* AIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779FED282C6AE40300435E96 /* AIManager.swift */; };
 		77F1886E2C67D2BF00948E59 /* AlwellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F1886D2C67D2BF00948E59 /* AlwellApp.swift */; };
 		77F188702C67D2BF00948E59 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F1886F2C67D2BF00948E59 /* ContentView.swift */; };
 		77F188722C67D2C000948E59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77F188712C67D2C000948E59 /* Assets.xcassets */; };
@@ -23,6 +26,8 @@
 		772D51C42C68855900878A49 /* AIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIView.swift; sourceTree = "<group>"; };
 		772D51C62C688B0600878A49 /* Alwell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Alwell.entitlements; sourceTree = "<group>"; };
 		772D51C72C688B4100878A49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		779FED222C6A8CC900435E96 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		779FED282C6AE40300435E96 /* AIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIManager.swift; sourceTree = "<group>"; };
 		77F1886A2C67D2BF00948E59 /* Alwell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alwell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77F1886D2C67D2BF00948E59 /* AlwellApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwellApp.swift; sourceTree = "<group>"; };
 		77F1886F2C67D2BF00948E59 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -36,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				779FED272C6ADF9100435E96 /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,13 +70,15 @@
 				772D51C72C688B4100878A49 /* Info.plist */,
 				772D51C62C688B0600878A49 /* Alwell.entitlements */,
 				77F1886D2C67D2BF00948E59 /* AlwellApp.swift */,
-				77F1886F2C67D2BF00948E59 /* ContentView.swift */,
 				77F1887B2C67D49E00948E59 /* HealthManager.swift */,
+				779FED282C6AE40300435E96 /* AIManager.swift */,
 				77F188712C67D2C000948E59 /* Assets.xcassets */,
 				77F188732C67D2C000948E59 /* Preview Content */,
 				772D51C02C687D3400878A49 /* AlwellTabView.swift */,
+				77F1886F2C67D2BF00948E59 /* ContentView.swift */,
 				772D51C22C6884D600878A49 /* HomeView.swift */,
 				772D51C42C68855900878A49 /* AIView.swift */,
+				779FED222C6A8CC900435E96 /* WelcomeView.swift */,
 			);
 			path = Alwell;
 			sourceTree = "<group>";
@@ -99,6 +107,9 @@
 			dependencies = (
 			);
 			name = Alwell;
+			packageProductDependencies = (
+				779FED262C6ADF9100435E96 /* OpenAI */,
+			);
 			productName = Alwell;
 			productReference = 77F1886A2C67D2BF00948E59 /* Alwell.app */;
 			productType = "com.apple.product-type.application";
@@ -111,7 +122,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					77F188692C67D2BF00948E59 = {
 						CreatedOnToolsVersion = 14.0;
@@ -128,7 +139,7 @@
 			);
 			mainGroup = 77F188612C67D2BF00948E59;
 			packageReferences = (
-				772D51C82C68916800878A49 /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
+				779FED252C6ADF9100435E96 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 77F1886B2C67D2BF00948E59 /* Products */;
 			projectDirPath = "";
@@ -162,6 +173,8 @@
 				772D51C32C6884D600878A49 /* HomeView.swift in Sources */,
 				772D51C52C68855900878A49 /* AIView.swift in Sources */,
 				77F1886E2C67D2BF00948E59 /* AlwellApp.swift in Sources */,
+				779FED232C6A8CC900435E96 /* WelcomeView.swift in Sources */,
+				779FED292C6AE40300435E96 /* AIManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +217,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -264,6 +278,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -295,12 +310,15 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Alwell/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Alwell;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow health access to use the application.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -327,12 +345,15 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Alwell/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Alwell;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow health access to use the application.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -370,15 +391,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		772D51C82C68916800878A49 /* XCRemoteSwiftPackageReference "SwiftOpenAI" */ = {
+		779FED252C6ADF9100435E96 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jamesrochabrun/SwiftOpenAI";
+			repositoryURL = "https://github.com/MacPaw/OpenAI";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		779FED262C6ADF9100435E96 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 779FED252C6ADF9100435E96 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 77F188622C67D2BF00948E59 /* Project object */;
 }

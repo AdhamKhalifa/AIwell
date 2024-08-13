@@ -55,7 +55,7 @@ Here's a demo of the app in action:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/alwell.git
+   git clone https://github.com/AdhamKhalifa/alwell.git
    cd alwell
    ```
 

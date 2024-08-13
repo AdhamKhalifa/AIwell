@@ -2,6 +2,38 @@
 
 Alwell is a personal health assistant app designed to help users manage their health by syncing data from Apple Health and providing insights via AI. The app offers a user-friendly interface to track health metrics like heart rate, steps, sleep, and more, while also offering personalized health advice through an AI-powered chat feature.
 
+## Screenshots
+
+### Welcome Screen
+
+![Welcome Screen](screenshots/1.png)
+
+### FAQ
+
+![Home Screen](screenshots/2.png)
+
+### Home Screen
+
+![Home Screen](screenshots/3.png)
+
+### Health data Screen
+
+![Home Screen](screenshots/4.png)
+
+### AI Health Chat
+
+![AI Health Chat](screenshots/5.png)
+
+### AI Health Chat Response
+
+![AI Health Chat](screenshots/6.png)
+
+## Demo
+
+Here's a demo of the app in action:
+
+![Alwell Demo](screenshots/demo.gif)
+
 ## Features
 
 - **Health Data Syncing**: Alwell integrates with Apple Health to sync and display various health metrics, including heart rate, steps, sleep analysis, weight, calories burned, exercise minutes, physical effort (MET), respiratory rate, and cardio fitness (VO2 Max).

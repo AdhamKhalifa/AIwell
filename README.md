@@ -6,33 +6,33 @@ Alwell is a personal health assistant app designed to help users manage their he
 
 ### Welcome Screen
 
-<img src="screenshots/1.png" alt="Welcome Screen" width="15%">
+<img src="screenshots/1.png" alt="Welcome Screen" width="25%">
 
 ### FAQ
 
-<img src="screenshots/2.png" alt="FAQ Screen" width="15%">
+<img src="screenshots/2.png" alt="FAQ Screen" width="25%">
 
 ### Home Screen
 
-<img src="screenshots/3.png" alt="Home Screen" width="15%">
+<img src="screenshots/3.png" alt="Home Screen" width="25%">
 
 ### Health Data Screen
 
-<img src="screenshots/4.png" alt="Health Data Screen" width="15%">
+<img src="screenshots/4.png" alt="Health Data Screen" width="25%">
 
 ### AI Health Chat
 
-<img src="screenshots/5.png" alt="AI Health Chat" width="15%">
+<img src="screenshots/5.png" alt="AI Health Chat" width="25%">
 
 ### AI Health Chat Response
 
-<img src="screenshots/6.png" alt="AI Health Chat Response" width="15%">
+<img src="screenshots/6.png" alt="AI Health Chat Response" width="25%">
 
 ## Demo
 
 Here's a demo of the app in action:
 
-<img src="screenshots/demo.gif" alt="Alwell Demo" width="15%">
+<img src="screenshots/demo.gif" alt="Alwell Demo" width="25%">
 
 ## Features
 

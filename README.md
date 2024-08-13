@@ -32,7 +32,7 @@ Alwell is a personal health assistant app designed to help users manage their he
 
 Here's a demo of the app in action:
 
-<img src="screenshots/demo.gif" alt="Alwell Demo" width="25%">
+[Video DEMO](https://youtu.be/4iR6_-P2TCA)
 
 ## Features
 
